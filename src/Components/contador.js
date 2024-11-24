@@ -24,9 +24,14 @@ const Contador = () => {
     return <div>No tienes acceso a esta área. Inicia sesión con el rol adecuado.</div>;
   }
 
-  // Función para redirigir al formulario de factura
+  // Función para redirigir a la lista de facturas
+  const irAFacturaList = () => {
+    navigate("/factura-list"); // Redirige a la lista de facturas
+  };
+
+  // Función para redirigir al formulario de creación de factura
   const irAFacturaForm = () => {
-    navigate("/factura-form"); // Redirige al formulario de factura
+    navigate("/factura-form"); // Redirige al formulario de creación de factura
   };
 
   return (
@@ -34,7 +39,10 @@ const Contador = () => {
       <h2>Bienvenido, Contador!</h2>
       <p>Acceso autorizado al área de Contador.</p>
 
-      {/* Botón para redirigir a la página de creación de factura */}
+      {/* Botón para redirigir a la lista de facturas */}
+      <button onClick={irAFacturaList}>Ver Lista de Facturas</button>
+
+      {/* Botón para redirigir al formulario de creación de factura */}
       <button onClick={irAFacturaForm}>Crear Factura</button>
     </div>
   );

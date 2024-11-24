@@ -121,17 +121,8 @@ const FacturaForm = () => {
 
     return (
         <div>
-            <h1>Lista de Facturas</h1>
+            <h1>Crear Nueva Factura</h1>
             {mensaje && <p>{mensaje}</p>}
-            <ul>
-                {facturas.map(factura => (
-                    <li key={factura.id}>
-                        {factura.numero_factura} - {factura.estado} - {factura.fecha_vencimiento} - {factura.monto} - {factura.descripcion} - {factura.fecha}  - {factura.cliente_nombre} - {factura.usuario_nombre}
-                    </li>
-                ))}
-            </ul>
-
-            <h2>Crear Nueva Factura</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Cliente</label>
@@ -139,12 +130,28 @@ const FacturaForm = () => {
                         <option value="">Seleccione un cliente</option>
                         {clientes.map(cliente => (
                             <option key={cliente.id} value={cliente.id}>
-                                {cliente.id} - {cliente.nombre}
+                                {cliente.nombre}
                             </option>
                         ))}
                     </select>
                 </div>
-
+                <div>
+                    <label>Número de Factura</label>
+                    <input 
+                        type="text" 
+                        value={numeroFactura} 
+                        onChange={e => setNumeroFactura(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div>
+                    <label>Estado</label>
+                    <select value={estado} onChange={e => setEstado(e.target.value)} required>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="pagada">Pagada</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </div>
                 <div>
                     <label>Monto</label>
                     <input 
@@ -154,49 +161,14 @@ const FacturaForm = () => {
                         required 
                     />
                 </div>
-
-                <div>
-                    <label>Estado</label>
-                    <select value={estado} onChange={e => setEstado(e.target.value)} required>
-                        <option value="pendiente">Pendiente</option>
-                        <option value="pagada">Pagada</option>
-                        <option value="cancelada">Cancelada</option>
-                    </select>
-                </div>
-
                 <div>
                     <label>Descripción</label>
                     <textarea 
                         value={descripcion} 
                         onChange={e => setDescripcion(e.target.value)} 
-                        placeholder="Descripción de la factura (opcional)"
                     />
                 </div>
-
-                <div>
-                    <label>Número de factura</label>
-                    <input 
-                        type="text" 
-                        value={numeroFactura} 
-                        onChange={e => setNumeroFactura(e.target.value)} 
-                        required
-                    />
-                </div>
-
-                {usuario && (
-                    <div>
-                        <label>Usuario</label>
-                        <input 
-                            type="text" 
-                            value={usuario.nombre} 
-                            readOnly 
-                        />
-                    </div>
-                )}
-
                 <button type="submit">Generar Factura</button>
-
-                {mensaje && <p>{mensaje}</p>} {/* Mostrar mensaje */}
             </form>
         </div>
     );

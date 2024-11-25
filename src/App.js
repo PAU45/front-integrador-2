@@ -5,6 +5,7 @@ import Contador from "./Components/contador";
 import Dashboard from "./Components/Dashboard";
 import FacturaForm from "./Components/FacturaForm";
 import FacturaList from "./Components/FacturaList";
+import Reporte from "./Components/reporte";
 function App() {
   return (
     <Router>
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/factura-form" element={<FacturaForm />} />
         <Route path="/factura-list" element={<FacturaList />} />
+        <Route path="/reportes" component={Reporte} />
       </Routes>
     </Router>
   );

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"; // Importar useNavigate para red
 const Gerente = () => {
   const [role, setRole] = useState(null);
   const [auditLogs, setAuditLogs] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [proveedores, setProveedores] = useState([]);
   const [facturasClientes, setFacturasClientes] = useState([]);
   const [facturasProveedores, setFacturasProveedores] = useState([]);
   const navigate = useNavigate(); // Crear una instancia de useNavigate
@@ -32,6 +34,26 @@ const Gerente = () => {
       }
     };
 
+    // Obtener los clientes desde el backend
+    const fetchClientes = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/auth/clientes/");
+        setClientes(response.data);
+      } catch (error) {
+        console.error("Error al obtener los clientes:", error);
+      }
+    };
+
+    // Obtener los proveedores desde el backend
+    const fetchProveedores = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/auth/proveedores/");
+        setProveedores(response.data);
+      } catch (error) {
+        console.error("Error al obtener los proveedores:", error);
+      }
+    };
+
     // Obtener las facturas de clientes desde el backend
     const fetchFacturasClientes = async () => {
       try {
@@ -54,6 +76,8 @@ const Gerente = () => {
 
     if (token) {
       fetchAuditLogs();
+      fetchClientes();
+      fetchProveedores();
       fetchFacturasClientes();
       fetchFacturasProveedores();
     }
@@ -89,6 +113,11 @@ const Gerente = () => {
     return <div>No tienes acceso a esta área. Inicia sesión con el rol adecuado.</div>;
   }
 
+  // Función para redirigir a la página de chat
+  const irAChat = () => {
+    navigate("/chat"); // Redirige a la página de chat
+  };
+
   return (
     <div>
       <h2>Bienvenido, Gerente!</h2>
@@ -118,6 +147,50 @@ const Gerente = () => {
         </tbody>
       </table>
 
+      <h3>Clientes</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+          </tr>
+        </thead>
+        <tbody>
+          {clientes.map((cliente) => (
+            <tr key={cliente.id}>
+              <td>{cliente.id}</td>
+              <td>{cliente.nombre}</td>
+              <td>{cliente.email}</td>
+              <td>{cliente.telefono}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h3>Proveedores</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+          </tr>
+        </thead>
+        <tbody>
+          {proveedores.map((proveedor) => (
+            <tr key={proveedor.id}>
+              <td>{proveedor.id}</td>
+              <td>{proveedor.nombre}</td>
+              <td>{proveedor.email}</td>
+              <td>{proveedor.telefono}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <h3>Facturas de Clientes</h3>
       <table>
         <thead>
@@ -126,7 +199,6 @@ const Gerente = () => {
             <th>Número de Factura</th>
             <th>Estado</th>
             <th>Monto</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -136,10 +208,6 @@ const Gerente = () => {
               <td>{factura.numero_factura}</td>
               <td>{factura.estado}</td>
               <td>{factura.monto}</td>
-              <td>
-                <button onClick={() => aprobarFactura(factura.id, "cliente")}>Aprobar</button>
-                <button onClick={() => rechazarFactura(factura.id, "cliente")}>Rechazar</button>
-              </td>
             </tr>
           ))}
         </tbody>
@@ -171,6 +239,9 @@ const Gerente = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Botón para redirigir a la página de chat */}
+      <button onClick={irAChat}>Ir al Chat</button>
     </div>
   );
 };

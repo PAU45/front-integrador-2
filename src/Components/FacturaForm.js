@@ -9,6 +9,7 @@ const FacturaForm = () => {
     const [estado, setEstado] = useState('pendiente');
     const [monto, setMonto] = useState('');
     const [descripcion, setDescripcion] = useState('');
+    const [fechaVencimiento, setFechaVencimiento] = useState(''); // Nuevo campo
     const [mensaje, setMensaje] = useState('');
     const [usuario, setUsuario] = useState(null); // Usuario logueado
 
@@ -82,7 +83,7 @@ const FacturaForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!cliente || !monto || !numeroFactura) {
+        if (!cliente || !monto || !numeroFactura || !fechaVencimiento) {
             setMensaje("Por favor complete todos los campos.");
             return;
         }
@@ -93,6 +94,7 @@ const FacturaForm = () => {
             estado: estado,
             descripcion: descripcion,
             numero_factura: numeroFactura,
+            fecha_vencimiento: fechaVencimiento, // Nuevo campo
             usuario: usuario ? usuario.id : null, // ID del usuario logueado
         };
 
@@ -110,6 +112,7 @@ const FacturaForm = () => {
                 setEstado('pendiente');
                 setDescripcion('');
                 setNumeroFactura('');
+                setFechaVencimiento(''); // Limpiar el campo de fecha de vencimiento
             } else {
                 setMensaje("Error al generar la factura. Código de estado: " + response.status);
             }
@@ -158,6 +161,15 @@ const FacturaForm = () => {
                         type="number" 
                         value={monto} 
                         onChange={e => setMonto(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div>
+                    <label>Fecha de Vencimiento</label>
+                    <input 
+                        type="date" 
+                        value={fechaVencimiento} 
+                        onChange={e => setFechaVencimiento(e.target.value)} 
                         required 
                     />
                 </div>

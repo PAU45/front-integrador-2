@@ -34,6 +34,11 @@ const Contador = () => {
     navigate("/factura-form"); // Redirige al formulario de creación de factura
   };
 
+  // Función para redirigir a la página de chat
+  const irAChat = () => {
+    navigate("/chat/"); // Redirige a la página de chat
+  };
+
   return (
     <div>
       <h2>Bienvenido, Contador!</h2>
@@ -44,6 +49,9 @@ const Contador = () => {
 
       {/* Botón para redirigir al formulario de creación de factura */}
       <button onClick={irAFacturaForm}>Crear Factura</button>
+
+      {/* Botón para redirigir a la página de chat */}
+      <button onClick={irAChat}>Ir al Chat</button>
     </div>
   );
 };

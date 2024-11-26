@@ -64,7 +64,7 @@ const Chat = () => {
 
   return (
     <div>
-     
+      <h1>Chat</h1>
       {mensaje && <p>{mensaje}</p>}
       <div>
         {messages.map((msg) => (

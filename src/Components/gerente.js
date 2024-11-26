@@ -9,6 +9,7 @@ const Gerente = () => {
   const [proveedores, setProveedores] = useState([]);
   const [facturasClientes, setFacturasClientes] = useState([]);
   const [facturasProveedores, setFacturasProveedores] = useState([]);
+  const [usuariosFacturados, setUsuariosFacturados] = useState([]); // Estado para almacenar los datos de usuarios facturados
   const navigate = useNavigate(); // Crear una instancia de useNavigate
 
   useEffect(() => {
@@ -74,12 +75,27 @@ const Gerente = () => {
       }
     };
 
+    // Obtener la cantidad de facturas por usuario desde el backend
+    const fetchUsuariosFacturados = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/auth/total-facturas-por-usuario/", {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setUsuariosFacturados(response.data);
+      } catch (error) {
+        console.error("Error al obtener la cantidad de facturas por usuario:", error);
+      }
+    };
+
     if (token) {
       fetchAuditLogs();
       fetchClientes();
       fetchProveedores();
       fetchFacturasClientes();
       fetchFacturasProveedores();
+      fetchUsuariosFacturados();
     }
   }, []);
 
@@ -239,6 +255,15 @@ const Gerente = () => {
           ))}
         </tbody>
       </table>
+
+      <h3>Usuarios que han Facturado</h3>
+      <ul>
+        {usuariosFacturados.map((usuario) => (
+          <li key={usuario.id}>
+            Nombre: {usuario.nombre}, Email: {usuario.email}, Total Facturas Cliente: {usuario.total_facturas_cliente}, Total Facturas Proveedor: {usuario.total_facturas_proveedor}
+          </li>
+        ))}
+      </ul>
 
       {/* Botón para redirigir a la página de chat */}
       <button onClick={irAChat}>Ir al Chat</button>

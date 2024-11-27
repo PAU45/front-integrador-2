@@ -106,7 +106,7 @@ const Gerente = () => {
         : `http://127.0.0.1:8000/api/auth/facturas-proveedores/${id}/`;
       await axios.patch(url, { accion: true });
       alert("Factura aprobada exitosamente");
-      navigate("/reporte"); // Redirigir a la página de reportes
+      navigate("/reportes"); // Redirigir a la página de reportes
     } catch (error) {
       console.error("Error al aprobar la factura:", error);
     }
@@ -119,10 +119,24 @@ const Gerente = () => {
         : `http://127.0.0.1:8000/api/auth/facturas-proveedores/${id}/`;
       await axios.patch(url, { accion: false });
       alert("Factura rechazada exitosamente");
-      navigate("/reporte"); // Redirigir a la página de reportes
+      navigate("/reportes"); // Redirigir a la página de reportes
     } catch (error) {
       console.error("Error al rechazar la factura:", error);
     }
+  };
+
+  const handleSeleccionarFactura = (factura) => {
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+    const reporte = {
+      numero_factura: factura.numero_factura,
+      proveedor: factura.proveedor_id,
+      usuario: userInfo.id,
+      fecha: factura.fecha,
+      fecha_vencimiento: factura.fecha_vencimiento,
+      accion: factura.accion,
+      motivo_accion: factura.descripcion
+    };
+    navigate("/reporte", { state: { reporte } });
   };
 
   if (!role) {
@@ -215,6 +229,7 @@ const Gerente = () => {
             <th>Número de Factura</th>
             <th>Estado</th>
             <th>Monto</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -224,6 +239,9 @@ const Gerente = () => {
               <td>{factura.numero_factura}</td>
               <td>{factura.estado}</td>
               <td>{factura.monto}</td>
+              <td>
+                <button onClick={() => handleSeleccionarFactura(factura)}>Seleccionar</button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -248,8 +266,7 @@ const Gerente = () => {
               <td>{factura.estado}</td>
               <td>{factura.monto}</td>
               <td>
-                <button onClick={() => aprobarFactura(factura.id, "proveedor")}>Aprobar</button>
-                <button onClick={() => rechazarFactura(factura.id, "proveedor")}>Rechazar</button>
+                <button onClick={() => handleSeleccionarFactura(factura)}>Seleccionar</button>
               </td>
             </tr>
           ))}

@@ -95,6 +95,9 @@ const Contador = () => {
   const irProfile = () => {
     navigate("/profile"); 
   };
+  const irproveedoresList = () => {
+    navigate("/proveedor-list"); 
+  };
 
   return (
     <div>
@@ -124,6 +127,9 @@ const Contador = () => {
 
       {/* Botón para redirigir a la página de prueba */}
       <button onClick={irProfile}>perfil</button>
+          
+      {/* Botón para redirigir a la página de prueba */}
+      <button onClick={irproveedoresList}>Listado De Proveedores</button>
 
       <h3>Clientes</h3>
       <table>

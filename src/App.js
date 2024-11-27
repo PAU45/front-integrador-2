@@ -12,6 +12,7 @@ import FacturaProveedorForm from "./Components/facturaProveedor";
 import ClienteForm from "./Components/ClienteForm";
 import ProveedorForm from "./Components/proveedorForm"; // Importar el nuevo componente
 import Profile from "./Components/profile";
+import ProveedorList from "./Components/proveedorList";
 function App() {
   return (
     <Router>
@@ -29,6 +30,8 @@ function App() {
         <Route path="/FormCliente" element={<ClienteForm />} />
         <Route path="/proveedor-form" element={<ProveedorForm />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/proveedor-list" element={<ProveedorList />} />
+        
       </Routes>
     </Router>
   );
